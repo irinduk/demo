@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Projects\\EducationDE\\EducationDE.csproj": {}
+    "C:\\Projects\\EducationDE\\EducationDE.csproj": {}
   },
   "projects": {
-    "c:\\Projects\\EducationDE\\EducationDE.csproj": {
+    "C:\\Projects\\EducationDE\\EducationDE.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Projects\\EducationDE\\EducationDE.csproj",
+        "projectUniqueName": "C:\\Projects\\EducationDE\\EducationDE.csproj",
         "projectName": "EducationDE",
-        "projectPath": "c:\\Projects\\EducationDE\\EducationDE.csproj",
+        "projectPath": "C:\\Projects\\EducationDE\\EducationDE.csproj",
         "packagesPath": "C:\\Users\\irish\\.nuget\\packages\\",
-        "outputPath": "c:\\Projects\\EducationDE\\obj\\",
+        "outputPath": "C:\\Projects\\EducationDE\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

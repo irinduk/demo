@@ -94,7 +94,7 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 
-                                <!-- Изображение товара с placeholder -->
+                                <!-- Изображение товара: либо фото, либо заглушка Image/picture.png -->
                                 <Border Grid.Column="0"
                                         Width="130"
                                         Height="130"
@@ -104,29 +104,13 @@
                                         BorderBrush="#BDC3C7"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Top">
-                                    <Grid>
-                                        <!-- Placeholder всегда виден -->
-                                        <StackPanel HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center">
-                                            <TextBlock Text="📷"
-                                                       FontSize="48"
-                                                       Foreground="#BDC3C7"
-                                                       HorizontalAlignment="Center"/>
-                                            <TextBlock Text="Нет фото"
-                                                       FontSize="11"
-                                                       Foreground="#95A5A6"
-                                                       HorizontalAlignment="Center"
-                                                       Margin="0,5,0,0"/>
-                                        </StackPanel>
-                                        <!-- Изображение поверх placeholder если есть -->
-                                        <Border CornerRadius="5"
-                                                ClipToBounds="True">
-                                            <Image Source="{Binding ImagePath}"
-                                                   Stretch="UniformToFill"
-                                                   HorizontalAlignment="Stretch"
-                                                   VerticalAlignment="Stretch"/>
-                                        </Border>
-                                    </Grid>
+                                    <Border CornerRadius="5"
+                                            ClipToBounds="True">
+                                        <Image Source="{Binding ImagePath}"
+                                               Stretch="UniformToFill"
+                                               HorizontalAlignment="Stretch"
+                                               VerticalAlignment="Stretch"/>
+                                    </Border>
                                 </Border>
                                 
                                 <!-- Информация о товаре -->

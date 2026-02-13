@@ -1,13 +1,24 @@
+using System;
+
 namespace EducationDE.Entities;
 
 /// <summary>
-/// Свойства для отображения в UI (статус и адрес всегда имеют текст).
+/// Модель для отображения заказа в списке.
+/// Содержит все нужные строки для UI и ссылку на исходный Order.
 /// </summary>
-public partial class Order
+public class OrderDisplay
 {
-    [System.ComponentModel.DataAnnotations.Schema.NotMapped]
-    public string StatusDisplay => OrderstatusNavigation?.Statusname ?? "—";
+    public required Order SourceOrder { get; set; }
 
-    [System.ComponentModel.DataAnnotations.Schema.NotMapped]
-    public string AddressDisplay => OrderaddressNavigation?.Addressname ?? "—";
+    public int Orderid { get; set; }
+
+    public string Status { get; set; } = string.Empty;
+
+    public string Address { get; set; } = string.Empty;
+
+    public DateOnly? Orderdate { get; set; }
+
+    public DateOnly? Orderdateissue { get; set; }
+
+    public string UserLastName { get; set; } = string.Empty;
 }

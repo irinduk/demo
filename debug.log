@@ -1,0 +1,5 @@
+[18:21:22] OrderUC CONSTRUCTOR START
+Orders: 11Statuses: 2Addresses: 36First Status properties:  Statusid = 1  StatusName = 'Новый'  Statusname (lowercase) = 'Новый'[18:21:45] OrderUC CONSTRUCTOR START
+Orders: 11Statuses: 2Addresses: 36First Status properties:  Statusid = 1  StatusName = 'Новый'  Statusname (lowercase) = 'Новый'[18:22:11] OrderUC CONSTRUCTOR START
+Orders: 11Statuses: 2Addresses: 36First Status properties:  Statusid = 1  StatusName = 'Новый'  Statusname (lowercase) = 'Новый'[18:25:22] OrderUC CONSTRUCTOR START
+Orders: 11Statuses: 2Addresses: 36First Status properties:  Statusid = 1  StatusName = 'Новый'  Statusname (lowercase) = 'Новый'

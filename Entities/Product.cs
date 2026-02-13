@@ -70,7 +70,8 @@ namespace EducationDE.Entities;
 
     /// <summary>
     /// Безопасное вычисляемое свойство для отображения изображения товара.
-    /// Не падает, если папка/файл отсутствуют.
+    /// Если для товара нет фотографии или путь к ней неверный, используется
+    /// заглушка <c>Image\picture.png</c>.
     /// </summary>
     public Bitmap? ImagePath
     {
@@ -80,29 +81,55 @@ namespace EducationDE.Entities;
             {
                 // Базовая папка сборки (bin/Debug/netX)
                 var baseDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? Environment.CurrentDirectory;
-                var imagesDir = Path.Combine(baseDir, "Images");
 
-                // Имя файла: только имя файла из Photopath (без подпапок), иначе picture.png
-                var fileName = string.IsNullOrWhiteSpace(Photopath)
-                    ? "picture.png"
-                    : Path.GetFileName(Photopath.Trim());
-                var fullPath = Path.Combine(imagesDir, fileName);
+                // Папка с изображениями: сначала "Image", затем "Images" как запасной вариант
+                var imageDirPrimary = Path.Combine(baseDir, "Image");
+                var imageDirFallback = Path.Combine(baseDir, "Images");
+                var imagesDir = Directory.Exists(imageDirPrimary) ? imageDirPrimary : imageDirFallback;
 
-                // Если файла нет — ничего не рисуем
-                if (!File.Exists(fullPath))
+                // Локальная функция для безопасной загрузки битмапа
+                static Bitmap? TryLoadBitmap(string path)
                 {
-                    // Можно попробовать Photopath как относительный путь без папки Images
-                    if (!string.IsNullOrWhiteSpace(Photopath))
-                    {
-                        var altPath = Path.Combine(baseDir, Photopath);
-                        if (File.Exists(altPath))
-                            return new Bitmap(altPath);
-                    }
-
-                    return null;
+                    return File.Exists(path) ? new Bitmap(path) : null;
                 }
 
-                return new Bitmap(fullPath);
+                Bitmap? result = null;
+
+                // 1. Если указан путь к фото товара — пробуем несколько вариантов.
+                if (!string.IsNullOrWhiteSpace(Photopath))
+                {
+                    var trimmed = Photopath.Trim();
+
+                    // Абсолютный путь
+                    if (Path.IsPathRooted(trimmed))
+                    {
+                        result = TryLoadBitmap(trimmed);
+                    }
+
+                    // Относительный путь от папки сборки
+                    if (result == null)
+                    {
+                        var fromBase = Path.Combine(baseDir, trimmed);
+                        result = TryLoadBitmap(fromBase);
+                    }
+
+                    // Только имя файла внутри папки с изображениями
+                    if (result == null)
+                    {
+                        var fileName = Path.GetFileName(trimmed);
+                        var fromImages = Path.Combine(imagesDir, fileName);
+                        result = TryLoadBitmap(fromImages);
+                    }
+                }
+
+                // 2. Если фото не найдено или не задано — используем заглушку Image\picture.png
+                if (result == null)
+                {
+                    var placeholder = Path.Combine(imagesDir, "picture.png");
+                    result = TryLoadBitmap(placeholder);
+                }
+
+                return result;
             }
             catch
             {
