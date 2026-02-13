@@ -43,10 +43,20 @@
                                                Foreground="#2C3E50"/>
                                 </StackPanel>
                                 <StackPanel Grid.Column="3" Orientation="Vertical">
-                                    <TextBlock Text="Дата заказа / выдачи" FontSize="10" Foreground="#7F8C8D"/>
-                                    <TextBlock Text="{Binding Orderdate, StringFormat={}{0:dd.MM.yyyy}}" FontSize="13"/>
-                                    <TextBlock Text="{Binding Orderdateissue, StringFormat={}{0:dd.MM.yyyy}}" FontSize="13" Foreground="#27AE60"/>
-                                    <TextBlock Text="{Binding UserLastName}" FontSize="10" Foreground="#95A5A6"/>
+                                    <!-- Дата оформления -->
+                                    <TextBlock Text="Дата заказа" FontSize="10" Foreground="#7F8C8D"/>
+                                    <TextBlock Text="{Binding Orderdate, StringFormat={}{0:dd.MM.yyyy}}" 
+                                               FontSize="13"
+                                               Foreground="#2C3E50"/>
+
+                                    <!-- Дата выдачи -->
+                                    <TextBlock Text="Дата выдачи" Margin="0,6,0,0" FontSize="10" Foreground="#7F8C8D"/>
+                                    <TextBlock Text="{Binding Orderdateissue, StringFormat={}{0:dd.MM.yyyy}}" 
+                                               FontSize="13" 
+                                               Foreground="#27AE60"/>
+
+                                    <!-- Клиент -->
+                                    <TextBlock Text="{Binding UserLastName}" Margin="0,4,0,0" FontSize="10" Foreground="#95A5A6"/>
                                 </StackPanel>
                             </Grid>
                         </Border>

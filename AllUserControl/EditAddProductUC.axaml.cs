@@ -67,13 +67,27 @@ public partial class EditAddProductUC : UserControl
             if (manuCombo?.SelectedItem is Manufacturer m) { _product.ManufacturerNavigation = m; _product.Manufacturer = m.Manufacturerid; }
             if (suppCombo?.SelectedItem is Supplier s) { _product.SupplierNavigation = s; _product.Supplier = s.Supplierid; }
 
-            if (_product.Productarticul == null)
+            // Генерация артикула только если он ещё не задан
+            if (string.IsNullOrWhiteSpace(_product.Productarticul))
             {
-                var lastProduct = Context.Connect.Products.OrderByDescending(p => p.Productarticul).FirstOrDefault();
-                if (lastProduct != null && lastProduct.Productarticul != null)
-                    _product.Productarticul = (int.Parse(lastProduct.Productarticul) + 1).ToString();
+                var lastProduct = Context.Connect.Products
+                    .OrderByDescending(p => p.Productarticul)
+                    .FirstOrDefault();
+
+                // Пытаемся аккуратно увеличить числовой артикул, если он был числовым
+                if (lastProduct != null &&
+                    !string.IsNullOrWhiteSpace(lastProduct.Productarticul) &&
+                    int.TryParse(lastProduct.Productarticul, out var lastNumber))
+                {
+                    _product.Productarticul = (lastNumber + 1).ToString();
+                }
                 else
-                    _product.Productarticul = "1";
+                {
+                    // Если последний артикул не число (например, "A112T4"),
+                    // генерируем новый безопасный текстовый артикул длиной до 10 символов.
+                    _product.Productarticul = $"P{Guid.NewGuid():N}".Substring(0, 10);
+                }
+
                 Context.Connect.Products.Add(_product);
             }
 
