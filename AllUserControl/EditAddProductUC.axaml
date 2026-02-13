@@ -1,0 +1,90 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" 
+             d:DesignWidth="800" 
+             d:DesignHeight="600"
+             x:Class="EducationDE.AllUserControl.EditAddProductUC"
+             xmlns:vm="clr-namespace:EducationDE.AllUserControl;assembly=EducationDE"
+             x:DataType="vm:EditAddProductUC">
+    
+    <Grid>
+        <StackPanel HorizontalAlignment="Center" 
+                    VerticalAlignment="Center" 
+                    Orientation="Vertical">
+            
+            <StackPanel Orientation="Vertical">
+                <Image Width="100" 
+                       Height="100" 
+                       Source="{Binding _product.ImagePath}" />
+            </StackPanel>
+            
+            <StackPanel Name="MainPanel" 
+                        Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Наименование" />
+                        <TextBlock Text="Ед. изм." />
+                        <TextBlock Text="Цена" />
+                        <TextBlock Text="Производитель" />
+                        <TextBlock Text="Поставщик" />
+                        <TextBlock Text="Категория" />
+                        <TextBlock Text="Скидка" />
+                        <TextBlock Text="Кол-во на складе" />
+                        <TextBlock Text="Описание" />
+                    </StackPanel>
+                    
+                    <StackPanel Orientation="Vertical">
+                        <TextBox Name="NameTextBox" 
+                                 Text="{Binding _product.Productname}" />
+                        <TextBox Name="UnitTextBox" 
+                                 Text="{Binding _product.Productunit}" />
+                        <TextBox Name="PriceTextBox" 
+                                 Text="{Binding _product.Productprice}" />
+                        
+                        <ComboBox Name="ManufacturerComboBox" 
+                                  ItemsSource="{Binding manufacturers}"
+                                  SelectedItem="{Binding _product.ManufacturerNavigation}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Manufacturername}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        
+                        <ComboBox Name="SupplierComboBox" 
+                                  ItemsSource="{Binding suppliers}"
+                                  SelectedItem="{Binding _product.SupplierNavigation}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Suppliername}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        
+                        <ComboBox Name="CategoryComboBox" 
+                                  ItemsSource="{Binding categories}"
+                                  SelectedItem="{Binding _product.CategoryNavigation}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Categoryname}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        
+                        <TextBox Name="DiscountTextBox" 
+                                 Text="{Binding _product.Discount}" />
+                        <TextBox Name="CountinstockTextBox" 
+                                 Text="{Binding _product.Countinstock}" />
+                        <TextBox Name="DescriptionTextBox" 
+                                 Text="{Binding _product.Description}" />
+                    </StackPanel>
+                </StackPanel>
+                
+                <Button Name="OkButton" 
+                        Click="OkButton_OnClick">Сохранить</Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

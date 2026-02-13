@@ -1,0 +1,254 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:entities="clr-namespace:EducationDE.Entities"
+             mc:Ignorable="d" 
+             d:DesignWidth="800" 
+             d:DesignHeight="600"
+             x:Class="EducationDE.AllUserControl.MainUC">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>   <!-- Панель поиска -->
+            <RowDefinition Height="*"/>      <!-- Список товаров -->
+            <RowDefinition Height="Auto"/>   <!-- Панель кнопок -->
+        </Grid.RowDefinitions>
+        
+        <!-- Панель поиска и фильтрации -->
+        <Border Grid.Row="0" 
+                Background="#34495E" 
+                Padding="10">
+            <StackPanel Name="SearchPanel" 
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center">
+                <ComboBox SelectionChanged="CategoryComboBox_OnSelectionChanged" 
+                          Name="CategoryComboBox" 
+                          Width="200"
+                          Height="35"
+                          Margin="0,0,10,0"
+                          VerticalAlignment="Center">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Categoryname}" 
+                                       FontSize="14"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                
+                <TextBox TextChanged="SearchTextBox_OnTextChanged" 
+                         Name="SearchTextBox" 
+                         Width="250"
+                         Margin="0,0,10,0"
+                         VerticalAlignment="Center"
+                         Watermark="Поиск по названию..."/>
+                
+                <RadioButton Name="SortUpButton" 
+                             Checked="SortButton_OnChecked"
+                             Content="Цена ↑"
+                             Foreground="White"
+                             VerticalAlignment="Center"
+                             Margin="0,0,10,0"/>
+                
+                <RadioButton Name="SortDownButton" 
+                             Checked="SortButton_OnChecked"
+                             Content="Цена ↓"
+                             Foreground="White"
+                             VerticalAlignment="Center"
+                             Margin="0,0,10,0"/>
+                
+                <Button Name="ResetButton" 
+                        Click="ResetButton_OnClick"
+                        Content="Сброс"
+                        Width="100"
+                        Height="35"
+                        VerticalAlignment="Center"
+                        Background="#E74C3C"
+                        Foreground="White"
+                        CornerRadius="3"/>
+            </StackPanel>
+        </Border>
+        
+        <!-- Список товаров -->
+        <ScrollViewer Grid.Row="1" 
+                      Margin="10"
+                      VerticalScrollBarVisibility="Auto">
+            <ListBox Name="ProductListBox" 
+                     SelectionChanged="ProductListBox_OnSelectionChanged"
+                     Background="Transparent"
+                     BorderThickness="0">
+                
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="0,8,0,0" 
+                                Padding="15" 
+                                Background="#FFFFFF" 
+                                CornerRadius="8"
+                                BorderThickness="2" 
+                                BorderBrush="#BDC3C7"
+                                BoxShadow="0 2 4 0 #00000020">
+                            
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <!-- Изображение товара с placeholder -->
+                                <Border Grid.Column="0"
+                                        Width="130"
+                                        Height="130"
+                                        Background="#ECF0F1"
+                                        CornerRadius="5"
+                                        BorderThickness="1"
+                                        BorderBrush="#BDC3C7"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Top">
+                                    <Grid>
+                                        <!-- Placeholder всегда виден -->
+                                        <StackPanel HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center">
+                                            <TextBlock Text="📷"
+                                                       FontSize="48"
+                                                       Foreground="#BDC3C7"
+                                                       HorizontalAlignment="Center"/>
+                                            <TextBlock Text="Нет фото"
+                                                       FontSize="11"
+                                                       Foreground="#95A5A6"
+                                                       HorizontalAlignment="Center"
+                                                       Margin="0,5,0,0"/>
+                                        </StackPanel>
+                                        <!-- Изображение поверх placeholder если есть -->
+                                        <Border CornerRadius="5"
+                                                ClipToBounds="True">
+                                            <Image Source="{Binding ImagePath}"
+                                                   Stretch="UniformToFill"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"/>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                                
+                                <!-- Информация о товаре -->
+                                <StackPanel Grid.Column="1" 
+                                            Orientation="Vertical" 
+                                            Margin="15,0,0,0">
+                                    
+                                    <!-- Название и категория -->
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                        <TextBlock Text="{Binding CategoryNavigation.Categoryname}" 
+                                                   FontWeight="Bold" 
+                                                   FontSize="12"
+                                                   Foreground="#3498DB"
+                                                   Margin="0,0,6,0"/>
+                                        <TextBlock Text="|" FontSize="12" Foreground="#BDC3C7" Margin="0,0,6,0"/>
+                                        <TextBlock Text="{Binding Productname}" 
+                                                   FontWeight="SemiBold" 
+                                                   FontSize="14"
+                                                   Foreground="#2C3E50"/>
+                                    </StackPanel>
+                                    
+                                    <!-- Описание -->
+                                    <TextBlock Text="{Binding Description}" 
+                                               FontSize="12"
+                                               TextWrapping="Wrap" 
+                                               Foreground="#7F8C8D"
+                                               Margin="0,0,0,6"
+                                               MaxHeight="40"
+                                               TextTrimming="CharacterEllipsis"/>
+                                    
+                                    <!-- Детали в две колонки -->
+                                    <Grid Margin="0,4,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0,0,8,0">
+                                            <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
+                                                <TextBlock Text="Производитель: " FontWeight="Bold" FontSize="11" Foreground="#34495E"/>
+                                                <TextBlock Text="{Binding ManufacturerNavigation.Manufacturername}" FontSize="11" Foreground="#7F8C8D"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
+                                                <TextBlock Text="Поставщик: " FontWeight="Bold" FontSize="11" Foreground="#34495E"/>
+                                                <TextBlock Text="{Binding SupplierNavigation.Suppliername}" FontSize="11" Foreground="#7F8C8D"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
+                                                <TextBlock Text="Ед.изм.: " FontWeight="Bold" FontSize="11" Foreground="#34495E"/>
+                                                <TextBlock Text="{Binding Productunit}" FontSize="11" Foreground="#7F8C8D"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                        
+                                        <StackPanel Grid.Column="1" Orientation="Vertical">
+                                            <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
+                                                <TextBlock Text="Цена: " FontWeight="Bold" FontSize="11" Foreground="#34495E"/>
+                                                <TextBlock Text="{Binding Productprice, StringFormat={}{0:C}}" Foreground="#E74C3C" FontSize="13" FontWeight="Bold"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
+                                                <TextBlock Text="На складе: " FontWeight="Bold" FontSize="11" Foreground="#34495E"/>
+                                                <TextBlock Text="{Binding Countinstock}" Foreground="#27AE60" FontWeight="Bold" FontSize="12"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
+                                                <TextBlock Text="Скидка: " FontWeight="Bold" FontSize="11" Foreground="#34495E"/>
+                                                <TextBlock Text="{Binding Discount, StringFormat={}{0}%}" Foreground="#E67E22" FontSize="12" FontWeight="Bold"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </ScrollViewer>
+        
+        <!-- Панель кнопок управления -->
+        <Border Grid.Row="2"
+                Background="#2C3E50"
+                Padding="15">
+            <StackPanel Name="ButtonPanel"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <Button Name="AddButton" 
+                        Click="AddButton_OnClick"
+                        Content="➕ Добавить"
+                        Width="130"
+                        Height="40"
+                        Margin="8,0"
+                        Background="#27AE60"
+                        Foreground="White"
+                        FontSize="14"
+                        FontWeight="SemiBold"
+                        CornerRadius="5"
+                        Cursor="Hand"/>
+                
+                <Button Name="EditButton" 
+                        Click="EditButton_OnClick"
+                        Content="✏️ Изменить"
+                        Width="130"
+                        Height="40"
+                        Margin="8,0"
+                        Background="#3498DB"
+                        Foreground="White"
+                        FontSize="14"
+                        FontWeight="SemiBold"
+                        CornerRadius="5"
+                        Cursor="Hand"/>
+                
+                <Button Name="RemoveButton" 
+                        Click="DeleteButton_OnClick"
+                        Content="🗑️ Удалить"
+                        Width="130"
+                        Height="40"
+                        Margin="8,0"
+                        Background="#E74C3C"
+                        Foreground="White"
+                        FontSize="14"
+                        FontWeight="SemiBold"
+                        CornerRadius="5"
+                        Cursor="Hand"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>
